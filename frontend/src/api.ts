@@ -1,7 +1,7 @@
-import type { 
-	CreateApplicationResponse, CreateApplicationParams, GetApplicationsParams, GetApplicationsResponse, 
+import type {
+	CreateApplicationResponse, CreateApplicationParams, GetApplicationsParams, GetApplicationsResponse,
 	LoginParams, LoginResponse, UpdateApplicationParams, UpdateApplicationResponse,
- } from "./types/api";
+} from "./types/api";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -70,7 +70,10 @@ async function request<T>(
 	if(!response.ok) {
 		const error = new Error(
 			data && typeof data === "object" && "msg" in data && typeof data.msg === "string" ?
-				data.msg : response.statusText
+				data.msg :
+				typeof data === "object" && "detail" in data && typeof data.detail === "string" ?
+					data.detail :
+					response.statusText
 		);
 
 		throw error;
